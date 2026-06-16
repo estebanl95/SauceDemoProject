@@ -63,5 +63,14 @@ test.describe('Login tests ', () => {
     await expect(loginPage.page.locator('.title')).toHaveText('Products');
   });
 
+  test('functionality of logging in with a performance glitch user', async ({ loginPage }) => {
+    test.setTimeout(60000); // Este usuario tarda más, le damos 60 segundos
+    await loginPage.login(config.credentials.performanceGlitchUser, config.credentials.password);
+    await expect(loginPage.page).toHaveURL(/.*inventory.html/, { timeout: 30000 }); // Espera hasta 30s a que cambie la URL
+    await expect(loginPage.page.locator('.title')).toHaveText('Products');
+  });
+  
+
+
 
 });
